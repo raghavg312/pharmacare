@@ -1,0 +1,38 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-management
+          uri: http://localhost:8062/
+          predicates:
+            - Path=/admin/**
+
+        - id: user-management
+          uri: http://localhost:8062/
+          predicates:
+            - Path=/doctor/**
+
+        - id: drug-management
+          uri: http://localhost:8063/
+          predicates:
+            - Path=/drug/**
+
+        - id: order-management
+          uri: http://localhost:8064/
+          predicates:
+            - Path=/order/**
+
+        - id: sales-management
+          uri: http://localhost:8065/
+          predicates:
+            - Path=/sales/**
+
+        - id: supplier-management
+          uri: http://localhost:8066/
+          predicates:
+            - Path=/supplier/**
