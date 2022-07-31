@@ -14,7 +14,7 @@ public class EmailSenderService {
                                 String subject,
                                 String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("pharmacymanagement59@gmail.com");
+        message.setFrom("pharmacymanagement132@gmail.com");
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);
@@ -23,6 +23,7 @@ public class EmailSenderService {
 
         return "New Account has been created. An email has been send to your mailId.";
     }
+
 
 }
 

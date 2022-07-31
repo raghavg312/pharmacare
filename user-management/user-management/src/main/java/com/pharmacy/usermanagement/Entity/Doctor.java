@@ -9,7 +9,6 @@ public class Doctor {
     @Id
     private String doctor_Id;
     private String doctor_name;
-    @Column(unique = true)
     private String doctor_email;
     private String doctor_password;
     private int doctor_contact;

@@ -3,6 +3,8 @@ package com.pharmacy.usermanagement.Controller;
 import com.pharmacy.usermanagement.EmailSenderService;
 import com.pharmacy.usermanagement.Entity.Admin;
 import com.pharmacy.usermanagement.Service.AdminService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +22,16 @@ public class AdminController {
     @Autowired
     private EmailSenderService senderService;
 
+    Logger logger = LoggerFactory.getLogger(AdminController.class);
+
     @GetMapping("/admin")
     public ResponseEntity getAdmin(){
         List<Admin> a = adminService.getAdmin();
         if(!(a.isEmpty())){
+            logger.trace("Getting all admins in system");
             return ResponseEntity.ok(a);}
         else {
+            logger.error("No admins found in the system");
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("There is no admin in the system");
         }
@@ -34,9 +40,10 @@ public class AdminController {
     @GetMapping("/admin/{adminId}")
     public ResponseEntity getAdminById(@PathVariable("adminId") String id){
         Optional<Admin> a = adminService.findAdminById(id);
-        if(!(a.isEmpty()))
-            return ResponseEntity.ok(a);
+        if(!(a.isEmpty())){logger.trace("Getting admin with id "+id+" in the system");
+            return ResponseEntity.ok(a);}
         else {
+            logger.error("No admin with id "+id+" in the system");
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("There is no admin in the system with id "+id);
         }
@@ -47,13 +54,15 @@ public class AdminController {
         try {
             ResponseEntity.status(HttpStatus.CREATED)
                     .body(adminService.saveAdmin(admin));
+            logger.trace("Creating admin");
 
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body( senderService.sendSimpleEmail(admin.getAdmin_email(),
+                    .body( senderService.sendSimpleEmail("raghavgupta312@gmail.com",
                             "PHARMACARE: New Account Created ",
                             "Hey " + admin.getAdmin_name()+"      " +
                                     "You have created an account on Pharmacare as admin."));
         }catch (Exception e) {
+            logger.error("Admin not created");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Admin not created. Check the inputs.");
@@ -66,6 +75,7 @@ public class AdminController {
         try {
             return ResponseEntity.ok(adminService.updateAdmin(admin,id));
         }catch (Exception e) {
+            logger.error("Admin not updated");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Admin with id "+id+" not found in the System");
@@ -77,6 +87,7 @@ public class AdminController {
         try {
             return ResponseEntity.ok(adminService.deleteAdmin(id));
         }catch (Exception e) {
+            logger.error("Admin not deleted");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Admin with id "+id+" not found in the System");

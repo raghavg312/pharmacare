@@ -30,12 +30,12 @@ public class DrugServiceImpl implements DrugService {
     @Override
     public Drug updateDrug(Drug drug,String id) {
         Drug d = drugRepository.findById(id).get();
-        d.setDrug_ID(id);
-        d.setDrug_Name(drug.getDrug_Name());
-        d.setDrug_Quantity(drug.getDrug_Quantity());
-        d.setBatch_ID(drug.getBatch_ID());
+        d.setDrugId(id);
+        d.setDrugName(drug.getDrugName());
+        d.setDrugQuantity(drug.getDrugQuantity());
+        d.setBatchId(drug.getBatchId());
         d.setPrice(drug.getPrice());
-        d.setExpiry_date(drug.getExpiry_date());
+        d.setExpiryDate(drug.getExpiryDate());
         drugRepository.save(d);
         return d;
     }

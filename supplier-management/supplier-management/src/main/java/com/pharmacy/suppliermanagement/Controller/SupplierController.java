@@ -2,6 +2,8 @@ package com.pharmacy.suppliermanagement.Controller;
 
 import com.pharmacy.suppliermanagement.Entity.Supplier;
 import com.pharmacy.suppliermanagement.Service.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,16 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
+    Logger logger = LoggerFactory.getLogger(SupplierController.class);
+
     @GetMapping("/supplier")
     public ResponseEntity getSupplier(){
         List<Supplier> a = supplierService.getSupplier();
         if(!(a.isEmpty()))
-            return ResponseEntity.ok(a);
-        else {
+        {
+            logger.info("Getting all supplier in system");
+            return ResponseEntity.ok(a);}
+        else {logger.error("No supplier found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("There is no supplier in the system");
         }
@@ -30,9 +36,10 @@ public class SupplierController {
     @GetMapping("/supplier/{supplierId}")
     public ResponseEntity getSupplierById(@PathVariable("supplierId") String id){
         Optional<Supplier> a = supplierService.findSupplierById(id);
-        if(!(a.isEmpty()))
-            return ResponseEntity.ok(a);
-        else {
+        if(!(a.isEmpty())){
+            logger.info("Getting supplier with id "+id+" in the system");
+            return ResponseEntity.ok(a);}
+        else {logger.error("No drug with id "+id+" in the system");
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("There is no supplier in the system with id "+id);
         }
@@ -44,6 +51,7 @@ public class SupplierController {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(supplierService.saveSupplier(supplier));
         }catch (Exception e) {
+            logger.error("Supplier not created.");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Supplier not created. Check the inputs.");
@@ -56,6 +64,7 @@ public class SupplierController {
         try {
             return ResponseEntity.ok(supplierService.updateSupplier(supplier,id));
         }catch (Exception e) {
+            logger.error("Supplier not updated.");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Supplier with id "+id+" not found in the System");
@@ -67,6 +76,7 @@ public class SupplierController {
         try {
             return ResponseEntity.ok(supplierService.deleteSupplier(id));
         }catch (Exception e) {
+            logger.error("Supplier not deleted.");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Supplier with id "+id+" not found in the System");

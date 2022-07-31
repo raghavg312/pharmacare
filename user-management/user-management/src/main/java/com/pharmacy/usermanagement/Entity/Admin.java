@@ -9,7 +9,6 @@ public class Admin {
     @Id
     private String admin_Id;
     private String admin_name;
-    @Column(unique=true)
     private String admin_email;
     private String admin_password;
     private int admin_contact;
