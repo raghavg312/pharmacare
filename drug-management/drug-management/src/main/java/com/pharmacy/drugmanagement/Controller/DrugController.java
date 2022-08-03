@@ -83,4 +83,8 @@ public class DrugController {
                     .body("Drug with id "+id+" not found in the System");
         }
     }
+    @PutMapping("/drug/quantity/{drugId}")
+    public ResponseEntity<Drug> updateDrugQuantity(@RequestBody Drug drug, @PathVariable("drugId") String id) {
+        return ResponseEntity.ok(drugService.updateDrugQuantity(drug, id));
+    }
 }

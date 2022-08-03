@@ -54,7 +54,6 @@ public class DoctorController {
         // return ResponseEntity.ok(doctorService.saveDoctor(doctor));
 
         try {
-
             ResponseEntity.status(HttpStatus.CREATED)
                     .body(doctorService.saveDoctor(doctor));
             logger.trace("Creating doctor");

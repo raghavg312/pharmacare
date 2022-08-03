@@ -14,8 +14,6 @@ public interface OrderService {
 
     public Orders saveOrder(Orders order);
 
-    public Orders updateOrder(Orders order, String id);
-
     public String deleteOrder(String id);
 
     public boolean verifyOrder(String orderId);
@@ -27,6 +25,7 @@ public interface OrderService {
     public List<Orders> findByPickedUp(boolean flag);
     public List<Orders> findByVerified(boolean flag);
     public List<Orders> findByDoctorId(String id);
+//    public List<Orders> findByDrugId(String id);
 
 
 

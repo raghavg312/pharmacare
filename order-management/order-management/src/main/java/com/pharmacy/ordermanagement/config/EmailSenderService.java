@@ -21,7 +21,7 @@ public class EmailSenderService {
         mailSender.send(message);
         System.out.println("Mail Send...");
 
-        return "New Account has been created. An email has been send to your mailId.";
+        return "New Order has been created. An email has been send to your mailId.";
     }
 
 

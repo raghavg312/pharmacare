@@ -33,21 +33,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Orders updateOrder(Orders order, String id) {
-        Orders updatedOrder= orderRepository.findById(id).get();
-        updatedOrder.setDrugList(order.getDrugList());
-        double totalPrice = 0;
-        for(Drug drug : updatedOrder.getDrugList()){
-            totalPrice+=drug.getPrice() * drug.getDrugQuantity();
-        }
-        updatedOrder.setTotalPrice(totalPrice);
-        orderRepository.save(updatedOrder);
-        return updatedOrder;
-    }
-
-
-
-    @Override
     public String deleteOrder(String id) {
         orderRepository.deleteById(id);
         return id;
@@ -89,5 +74,10 @@ public class OrderServiceImpl implements OrderService {
     public List<Orders> findByDoctorId(String id) {
         return orderRepository.findByDoctorId(id);
     }
+
+//    @Override
+//    public List<Orders> findByDrugId(String id) {
+//        return orderRepository.(id);
+//    }
 
 }

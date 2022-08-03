@@ -6,6 +6,7 @@ import com.pharmacy.ordermanagement.services.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,49 @@ public class OrderController {
 
     Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-    @GetMapping()
+    @PostMapping("create")
+    public ResponseEntity createOrder(@RequestBody Orders orders) {
+        List<Drug> drugListRequested = orders.getDrugList();
+        List<Drug> drugList = new ArrayList<>();
+
+        double totalPrice = 0;
+
+        for (Drug d : drugListRequested) {
+            Drug drug = restTemplate.getForObject("http://drug-management/drug/" + d.getDrugId(), Drug.class);
+            if (drug.getDrugQuantity() >= d.getDrugQuantity()) {
+                int updatedQuantity = drug.getDrugQuantity() - d.getDrugQuantity();
+                drug.setDrugQuantity(d.getDrugQuantity());
+                totalPrice += drug.getPrice() * d.getDrugQuantity();
+                drugList.add(drug);
+                d.setDrugQuantity(updatedQuantity);
+                restTemplate.put("http://drug-management/drug/quantity/" + d.getDrugId(), d, Drug.class);
+            } else {
+                for (Drug drug1 : drugList) {
+                    Drug drug2 = restTemplate.getForObject("http://drug-management/drug/" + drug1.getDrugId(), Drug.class);
+                    drug2.setDrugQuantity(drug1.getDrugQuantity() + drug2.getDrugQuantity());
+                    restTemplate.put("http://drug-management/drug/quantity/" + drug2.getDrugId(), drug2, Drug.class);
+                }
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Drug not availabe");
+            }
+        }
+        orders.setPickedUp(false);
+        orders.setVerified(false);
+        orders.setDrugList(drugList);
+        orders.setTotalPrice(totalPrice);
+        orders = orderService.saveOrder(orders);
+        return new ResponseEntity<>(orders, HttpStatus.CREATED);
+    }
+
+    @GetMapping
     public ResponseEntity getOrder() {
         try {
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(senderService.sendSimpleEmail(doctor.getDoctor_email(),
+//                        "PHARMACARE: New Order ",
+//                        "Hey " +doctor.getDoctor_name()+"      "+
+//                                "Thanks for your purchase from Pharmacare " +
+//                                " Order id : " + orders1.getOrderId() +
+//                                " Price : " + orders1.getTotalPrice()));
             return ResponseEntity.ok(orderService.getOrder());
         } catch (Exception e) {
             logger.error("No order in the system");
@@ -83,64 +124,6 @@ public class OrderController {
         }
     }
 
-    @PostMapping()
-    public ResponseEntity createOrder(@RequestBody OrderProcessing orderProcessing) {
-        try {
-
-            List<OrderedDrug> orderedDrugList = orderProcessing.getOrderedDrugList();
-            List<Drug> drugList = new ArrayList<>();
-
-            Doctor doctor = restTemplate.getForObject("http://user-management/doctor/" + orderProcessing.getDoctorId(), Doctor.class);
-            double totalPrice = 0;
-
-            Orders order1 = new Orders();
-            order1.setDoctorId(orderProcessing.getDoctorId());
-            order1.setPickedUp(false);
-            order1.setVerified(false);
-
-            List<Orders> orList = new ArrayList<>();
-            orList.add(order1);
-
-            for (OrderedDrug orderedDrug : orderedDrugList) {
-                Drug drug = restTemplate.getForObject("http://drug-management/drug/" + orderedDrug.getDrugId(), Drug.class);
-                drug.setDrugQuantity(orderedDrug.getQuantity());
-                totalPrice += drug.getPrice() * orderedDrug.getQuantity();
-                drugList.add(drug);
-            }
-
-            order1.setDrugList(drugList);
-            order1.setTotalPrice(totalPrice);
-            Orders orders = orderService.saveOrder(order1);
-            new ResponseEntity<>(orders, HttpStatus.CREATED);
-
-//        ResponseEntity.status(HttpStatus.CREATED)
-//                .body(orderService.saveOrder(order1));
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(senderService.sendSimpleEmail(doctor.getDoctor_email(),
-                            "PHARMACARE: New Order ",
-                            "Hey " + doctor.getDoctor_name() + "    " +
-                                    "Thanks for your purchase from Pharmacare " +
-                                    " Order id : " + orders.getOrderId() +
-                                    " Price : " + orders.getTotalPrice()
-                    ));
-        }catch(Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("something is wrong");
-        }
-    }
-
-    @PutMapping("/{orderId}")
-    public ResponseEntity updateOrder(@RequestBody Orders order, @PathVariable("orderId") String id) {
-        try {
-            return ResponseEntity.ok(orderService.updateOrder(order,id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
-        }
-    }
-
     @DeleteMapping("/{orderId}")
     public ResponseEntity deleteOrder(@PathVariable("orderId") String id) {
         try {
@@ -184,4 +167,5 @@ public class OrderController {
                     .body("No order found");
         }
     }
+
 }

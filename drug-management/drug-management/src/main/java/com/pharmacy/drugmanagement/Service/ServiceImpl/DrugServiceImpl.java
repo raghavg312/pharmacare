@@ -50,4 +50,11 @@ public class DrugServiceImpl implements DrugService {
         Optional<Drug> a = drugRepository.findById(id);
         return a;
     }
+    @Override
+    public Drug updateDrugQuantity(Drug drug, String id) {
+        Drug d = drugRepository.findById(id).get();
+        d.setDrugQuantity(drug.getDrugQuantity());
+        drugRepository.save(d);
+        return d;
+    }
 }

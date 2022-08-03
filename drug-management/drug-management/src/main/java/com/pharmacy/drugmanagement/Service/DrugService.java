@@ -16,4 +16,5 @@ public interface DrugService {
     public String deleteDrug(String id);
 
     public Optional<Drug> findDrugById(String id);
+    public Drug updateDrugQuantity(Drug drug, String id);
 }
