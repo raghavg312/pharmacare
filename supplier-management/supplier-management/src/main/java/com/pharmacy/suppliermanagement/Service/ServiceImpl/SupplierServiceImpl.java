@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
@@ -30,10 +29,10 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public Supplier updateSupplier(Supplier supplier, String id) {
         Supplier s = supplierRepository.findById(id).get();
-        s.setSupplier_Id(id);
-        s.setSupplier_name(supplier.getSupplier_name());
-        s.setSupplier_contact(supplier.getSupplier_contact());
-        s.setSupplier_email(supplier.getSupplier_email());
+        s.setSupplierId(id);
+        s.setSupplierName(supplier.getSupplierName());
+        s.setSupplierContact(supplier.getSupplierContact());
+        s.setSupplierEmail(supplier.getSupplierEmail());
         supplierRepository.save(s);
         return s;
     }
@@ -44,8 +43,8 @@ public class SupplierServiceImpl implements SupplierService {
         return id;
     }
 
-    public Optional<Supplier> findSupplierById(String id){
-        Optional<Supplier> s = supplierRepository.findById(id);
+    public Supplier findSupplierById(String id){
+        Supplier s = supplierRepository.findSupplierById(id);
         return s;
     }
 }

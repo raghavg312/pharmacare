@@ -31,11 +31,11 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor updateDoctor(Doctor doctor,String id) {
 
         Doctor a = doctorRepository.findById(id).get();
-        a.setDoctor_Id(id);
-        a.setDoctor_password(doctor.getDoctor_password());
-        a.setDoctor_contact(doctor.getDoctor_contact());
-        a.setDoctor_email(doctor.getDoctor_email());
-        a.setDoctor_name(doctor.getDoctor_name());
+        a.setDoctorId(id);
+        a.setDoctorPassword(doctor.getDoctorPassword());
+        a.setDoctorContact(doctor.getDoctorContact());
+        a.setDoctorEmail(doctor.getDoctorEmail());
+        a.setDoctorName(doctor.getDoctorName());
         doctorRepository.save(a);
         return a;
     }

@@ -2,6 +2,9 @@ package com.pharmacy.drugmanagement.Controller;
 
 import com.pharmacy.drugmanagement.Entity.Drug;
 import com.pharmacy.drugmanagement.Service.DrugService;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class SupplierController {
@@ -35,15 +33,15 @@ public class SupplierController {
 
     @GetMapping("/supplier/{supplierId}")
     public ResponseEntity getSupplierById(@PathVariable("supplierId") String id){
-        Optional<Supplier> a = supplierService.findSupplierById(id);
-        if(!(a.isEmpty())){
-            logger.info("Getting supplier with id "+id+" in the system");
-            return ResponseEntity.ok(a);}
-        else {logger.error("No drug with id "+id+" in the system");
+        try {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .body(supplierService.findSupplierById(id));
+        }catch(Exception e){
+            logger.error("No drug with id "+id+" in the system");
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("There is no supplier in the system with id "+id);
-        }
     }
+        }
 
     @PostMapping("/supplier")
     public ResponseEntity createSupplier(@RequestBody Supplier supplier) {

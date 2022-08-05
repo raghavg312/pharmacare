@@ -3,7 +3,6 @@ package com.pharmacy.suppliermanagement.Service;
 import com.pharmacy.suppliermanagement.Entity.Supplier;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SupplierService {
     public List<Supplier> getSupplier();
@@ -14,5 +13,5 @@ public interface SupplierService {
 
     public String deleteSupplier(String id);
 
-    public Optional<Supplier> findSupplierById(String id);
+    public Supplier findSupplierById(String id);
 }

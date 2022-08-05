@@ -27,7 +27,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
     public ApiInfo getInfo(){
         return new ApiInfo("Pharmacare - OrderManagement Backend","This Project is developed to manage the Orders","1.0"
-                ,"Terms Of Service",new Contact("Raghav","","pharmacymanagement132@gmail.com")
+                ,"Terms Of Service",new Contact("Raghav","http://localhost:8761/","pharmacymanagement132@gmail.com")
                 ,"License Of API","API licence URL", Collections.emptyList());
     }
 }

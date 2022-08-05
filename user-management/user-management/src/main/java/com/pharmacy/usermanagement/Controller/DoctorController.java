@@ -59,9 +59,9 @@ public class DoctorController {
             logger.trace("Creating doctor");
 
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body( senderService.sendSimpleEmail(doctor.getDoctor_email(),
+                    .body( senderService.sendSimpleEmail(doctor.getDoctorEmail(),
                             "PHARMACARE: New Account Created ",
-                            "Hey " + doctor.getDoctor_name()+"      " +
+                            "Hey " + doctor.getDoctorName()+"      " +
                                     "You have created an account on Pharmacare."));
         }catch (Exception e) {
             logger.error("Doctor not created");

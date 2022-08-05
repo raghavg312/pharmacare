@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Component
 @ConfigurationProperties("paytm.payment.sandbox")
-public class PaytmDetail {
+public class Payment {
 
     private String merchantId;
     private String merchantKey;
@@ -17,10 +17,10 @@ public class PaytmDetail {
     private String paytmUrl;
     private Map<String, String> details;
 
-    public PaytmDetail() {
+    public Payment() {
     }
 
-    public PaytmDetail(String merchantId, String merchantKey, String channelId, String website,
+    public Payment(String merchantId, String merchantKey, String channelId, String website,
                            String industryTypeId,String paytmUrl, Map<String, String> details) {
         super();
         this.merchantId = merchantId;

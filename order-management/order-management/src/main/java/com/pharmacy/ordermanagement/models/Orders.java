@@ -1,18 +1,32 @@
 package com.pharmacy.ordermanagement.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Document
+@ApiModel(description = "Details about the order")
 public class Orders {
 
     @Id
+    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(notes = "Unique Id of order")
     private String orderId;
+
+    @ApiModelProperty(notes = "Id of the doctor")
+    //@ApiModelProperty(hidden = true)
     private String doctorId;
+
+    @ApiModelProperty(notes = "Total Price of the order")
     private double totalPrice;
+
+    @ApiModelProperty(hidden = true)
     private boolean pickedUp;
+
+    @ApiModelProperty(hidden = true)
     private boolean verified;
 
     private List<Drug> drugList;

@@ -57,9 +57,9 @@ public class AdminController {
             logger.trace("Creating admin");
 
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body( senderService.sendSimpleEmail("raghavgupta312@gmail.com",
+                    .body( senderService.sendSimpleEmail(admin.getAdminEmail(),
                             "PHARMACARE: New Account Created ",
-                            "Hey " + admin.getAdmin_name()+"      " +
+                            "Hey " + admin.getAdminName()+"      " +
                                     "You have created an account on Pharmacare as admin."));
         }catch (Exception e) {
             logger.error("Admin not created");

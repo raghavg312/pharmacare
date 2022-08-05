@@ -1,76 +1,90 @@
 package com.pharmacy.usermanagement.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "Admin")
+@ApiModel(description = "Details about the admin")
 public class Admin {
+
     @Id
-    private String admin_Id;
-    private String admin_name;
-    private String admin_email;
-    private String admin_password;
-    private int admin_contact;
+    //@ApiModelProperty(notes = "The unique id of admin")
+    @ApiModelProperty(hidden = true)
+    private String adminId;
+
+    @ApiModelProperty(notes = "Name of admin")
+    private String adminName;
+
+    @ApiModelProperty(notes = "Email address of admin")
+    private String adminEmail;
+
+    @ApiModelProperty(notes = "Password of admin")
+    private String adminPassword;
+
+    @ApiModelProperty(notes = "Contact number of admin")
+    private int adminContact;
 
     public Admin() {
     }
 
-    public Admin(String admin_Id, String admin_name, String admin_email, String admin_password, int admin_contact) {
-        this.admin_Id = admin_Id;
-        this.admin_name = admin_name;
-        this.admin_email = admin_email;
-        this.admin_password = admin_password;
-        this.admin_contact = admin_contact;
+    public Admin(String adminId, String adminName, String adminEmail, String adminPassword, int adminContact) {
+        this.adminId = adminId;
+        this.adminName = adminName;
+        this.adminEmail = adminEmail;
+        this.adminPassword = adminPassword;
+        this.adminContact = adminContact;
     }
 
-    public String getAdmin_Id() {
-        return admin_Id;
+    public String getAdminId() {
+        return adminId;
     }
 
-    public void setAdmin_Id(String admin_Id) {
-        this.admin_Id = admin_Id;
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 
-    public String getAdmin_name() {
-        return admin_name;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setAdmin_name(String admin_name) {
-        this.admin_name = admin_name;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
-    public String getAdmin_email() {
-        return admin_email;
+    public String getAdminEmail() {
+        return adminEmail;
     }
 
-    public void setAdmin_email(String admin_email) {
-        this.admin_email = admin_email;
+    public void setAdminEmail(String adminEmail) {
+        this.adminEmail = adminEmail;
     }
 
-    public String getAdmin_password() {
-        return admin_password;
+    public String getAdminPassword() {
+        return adminPassword;
     }
 
-    public void setAdmin_password(String admin_password) {
-        this.admin_password = admin_password;
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
     }
 
-    public int getAdmin_contact() {
-        return admin_contact;
+    public int getAdminContact() {
+        return adminContact;
     }
 
-    public void setAdmin_contact(int admin_contact) {
-        this.admin_contact = admin_contact;
+    public void setAdminContact(int adminContact) {
+        this.adminContact = adminContact;
     }
 
     @Override
     public String toString() {
         return "Admin{" +
-                "admin_Id='" + admin_Id + '\'' +
-                ", admin_name='" + admin_name + '\'' +
-                ", admin_email='" + admin_email + '\'' +
-                ", admin_password='" + admin_password + '\'' +
-                ", admin_contact=" + admin_contact +
+                "adminId='" + adminId + '\'' +
+                ", adminName='" + adminName + '\'' +
+                ", adminEmail='" + adminEmail + '\'' +
+                ", adminPassword='" + adminPassword + '\'' +
+                ", adminContact=" + adminContact +
                 '}';
     }
 }

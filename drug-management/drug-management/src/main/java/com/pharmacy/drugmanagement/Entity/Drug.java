@@ -1,17 +1,34 @@
 package com.pharmacy.drugmanagement.Entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
+@ApiModel(description = "Details about the drugs")
 public class Drug {
+
     @Id
+    @ApiModelProperty(hidden = true)
+//    @ApiModelProperty(notes = "Unique id of drug")
     private String drugId;
+
+    @ApiModelProperty(notes = "Name of drug")
     private String drugName;
+
+    @ApiModelProperty(notes = "Quantity of drug")
     private int drugQuantity;
+
+    @ApiModelProperty(notes = "Expiry date of drug")
     private Date expiryDate;
+
+    @ApiModelProperty(notes = "Price of drug")
     private double price;
+
+    @ApiModelProperty(notes = "BatchId of drug")
     private String batchId;
 
     public Drug() {

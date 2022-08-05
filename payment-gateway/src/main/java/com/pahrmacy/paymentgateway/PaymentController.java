@@ -1,21 +1,25 @@
 package com.pahrmacy.paymentgateway;
 
+
+import com.paytm.pg.merchant.PaytmChecksum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import com.paytm.pg.merchant.*;
 @Controller
 public class PaymentController {
     @Autowired
-    private PaytmDetail payment;
+    private Payment payment;
     @Autowired
     private Environment env;
 
@@ -50,7 +54,7 @@ public class PaymentController {
         Map<String, String[]> mapData = request.getParameterMap();
         TreeMap<String, String> parameters = new TreeMap<String, String>();
         String paytmChecksum = "";
-        for (Map.Entry<String, String[]> requestParamsEntry : mapData.entrySet()) {
+        for (Entry<String, String[]> requestParamsEntry : mapData.entrySet()) {
             if ("CHECKSUMHASH".equalsIgnoreCase(requestParamsEntry.getKey())){
                 paytmChecksum = requestParamsEntry.getValue()[0];
             } else {

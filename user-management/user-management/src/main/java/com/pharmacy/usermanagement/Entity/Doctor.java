@@ -1,78 +1,92 @@
 package com.pharmacy.usermanagement.Entity;
 
-import javax.persistence.Column;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Doctor")
+@ApiModel(description = "Details about Doctor")
 public class Doctor {
-    @Id
-    private String doctor_Id;
-    private String doctor_name;
-    private String doctor_email;
-    private String doctor_password;
-    private int doctor_contact;
 
+    @Id
+//    @ApiModelProperty(notes = "Unique Id of doctor")
+    @ApiModelProperty(hidden = true)
+    private String doctorId;
+
+    @ApiModelProperty(notes = "Name of doctor")
+    private String doctorName;
+
+    @ApiModelProperty(notes = "Email address of doctor")
+    private String doctorEmail;
+
+    @ApiModelProperty(notes = "Password of doctor")
+    private String doctorPassword;
+
+    @ApiModelProperty(notes = "Contact number of doctor")
+    private int doctorContact;
 
     public Doctor() {
     }
 
-    public Doctor(String doctor_Id, String doctor_name, String doctor_email, String doctor_password, int doctor_contact) {
-        this.doctor_Id = doctor_Id;
-        this.doctor_name = doctor_name;
-        this.doctor_email = doctor_email;
-        this.doctor_password = doctor_password;
-        this.doctor_contact = doctor_contact;
+    public Doctor(String doctorId, String doctorName, String doctorEmail, String doctorPassword, int doctorContact) {
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
+        this.doctorEmail = doctorEmail;
+        this.doctorPassword = doctorPassword;
+        this.doctorContact = doctorContact;
     }
 
-    public String getDoctor_Id() {
-        return doctor_Id;
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctor_Id(String doctor_Id) {
-        this.doctor_Id = doctor_Id;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public String getDoctor_name() {
-        return doctor_name;
+    public String getDoctorName() {
+        return doctorName;
     }
 
-    public void setDoctor_name(String doctor_name) {
-        this.doctor_name = doctor_name;
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
-    public String getDoctor_email() {
-        return doctor_email;
+    public String getDoctorEmail() {
+        return doctorEmail;
     }
 
-    public void setDoctor_email(String doctor_email) {
-        this.doctor_email = doctor_email;
+    public void setDoctorEmail(String doctorEmail) {
+        this.doctorEmail = doctorEmail;
     }
 
-    public String getDoctor_password() {
-        return doctor_password;
+    public String getDoctorPassword() {
+        return doctorPassword;
     }
 
-    public void setDoctor_password(String doctor_password) {
-        this.doctor_password = doctor_password;
+    public void setDoctorPassword(String doctorPassword) {
+        this.doctorPassword = doctorPassword;
     }
 
-    public int getDoctor_contact() {
-        return doctor_contact;
+    public int getDoctorContact() {
+        return doctorContact;
     }
 
-    public void setDoctor_contact(int doctor_contact) {
-        this.doctor_contact = doctor_contact;
+    public void setDoctorContact(int doctorContact) {
+        this.doctorContact = doctorContact;
     }
 
     @Override
     public String toString() {
         return "Doctor{" +
-                "doctor_Id='" + doctor_Id + '\'' +
-                ", doctor_name='" + doctor_name + '\'' +
-                ", doctor_email='" + doctor_email + '\'' +
-                ", doctor_password='" + doctor_password + '\'' +
-                ", doctor_contact=" + doctor_contact +
+                "doctorId='" + doctorId + '\'' +
+                ", doctorName='" + doctorName + '\'' +
+                ", doctorEmail='" + doctorEmail + '\'' +
+                ", doctorPassword='" + doctorPassword + '\'' +
+                ", doctorContact=" + doctorContact +
                 '}';
     }
 }

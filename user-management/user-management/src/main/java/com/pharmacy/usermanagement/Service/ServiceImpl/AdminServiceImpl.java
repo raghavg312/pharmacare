@@ -31,11 +31,11 @@ public class AdminServiceImpl implements AdminService {
     public Admin updateAdmin(Admin admin,String id) {
 
         Admin a = adminRepository.findById(id).get();
-        a.setAdmin_Id(id);
-        a.setAdmin_password(admin.getAdmin_password());
-        a.setAdmin_contact(admin.getAdmin_contact());
-        a.setAdmin_email(admin.getAdmin_email());
-        a.setAdmin_name(admin.getAdmin_name());
+        a.setAdminId(id);
+        a.setAdminPassword(admin.getAdminPassword());
+        a.setAdminContact(admin.getAdminContact());
+        a.setAdminEmail(admin.getAdminEmail());
+        a.setAdminName(admin.getAdminName());
         adminRepository.save(a);
         return a;
     }
