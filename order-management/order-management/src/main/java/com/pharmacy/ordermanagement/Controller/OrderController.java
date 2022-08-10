@@ -29,47 +29,68 @@ public class OrderController {
 
     @PostMapping("create")
     public ResponseEntity createOrder(@RequestBody Orders orders) {
+        // getting the list of drug requested by doctor
         List<Drug> drugListRequested = orders.getDrugList();
+
+        // creating new drug list which are availabe and order get placed
         List<Drug> drugList = new ArrayList<>();
+        //
+        Users doctor = restTemplate.getForObject("http://user-management/user/"+orders.getDoctorId(),Users.class);
 
         double totalPrice = 0;
 
-        for (Drug d : drugListRequested) {
-            Drug drug = restTemplate.getForObject("http://drug-management/drug/" + d.getDrugId(), Drug.class);
-            if (drug.getDrugQuantity() >= d.getDrugQuantity()) {
+        for(Drug d : drugListRequested){
+            // getting the drug info from drug management microservice
+            Drug drug = restTemplate.getForObject("http://drug-management/drug/"+d.getDrugId(),Drug.class);
+            if(drug.getDrugQuantity() >= d.getDrugQuantity()){
+                // store quantity to be update in drug management
                 int updatedQuantity = drug.getDrugQuantity() - d.getDrugQuantity();
+
+                // update ordered drug quantity
                 drug.setDrugQuantity(d.getDrugQuantity());
+
+                // calaculating total price of all drugs
                 totalPrice += drug.getPrice() * d.getDrugQuantity();
+
+                // adding drug into order
                 drugList.add(drug);
+
+                // update drug in drug management
                 d.setDrugQuantity(updatedQuantity);
-                restTemplate.put("http://drug-management/drug/quantity/" + d.getDrugId(), d, Drug.class);
-            } else {
-                for (Drug drug1 : drugList) {
-                    Drug drug2 = restTemplate.getForObject("http://drug-management/drug/" + drug1.getDrugId(), Drug.class);
-                    drug2.setDrugQuantity(drug1.getDrugQuantity() + drug2.getDrugQuantity());
-                    restTemplate.put("http://drug-management/drug/quantity/" + drug2.getDrugId(), drug2, Drug.class);
+                restTemplate.put("http://drug-management/drug/quantity/"+d.getDrugId(),d,Drug.class);
+
+            }else{
+
+                // update drug in drug management
+                for(Drug drug1 : drugList){
+                    Drug drug2 = restTemplate.getForObject("http://drug-management/drug/"+drug1.getDrugId(),Drug.class);
+                    drug2.setDrugQuantity(drug1.getDrugQuantity()+drug2.getDrugQuantity());
+                    restTemplate.put("http://drug-management/drug/quantity/"+drug2.getDrugId(),drug2,Drug.class);
                 }
+
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Drug not availabe");
             }
         }
+
+        // setting orders default properties
         orders.setPickedUp(false);
         orders.setVerified(false);
         orders.setDrugList(drugList);
         orders.setTotalPrice(totalPrice);
+
+        // saving the order in database
         orders = orderService.saveOrder(orders);
-        return new ResponseEntity<>(orders, HttpStatus.CREATED);
+       // return new ResponseEntity<>(orders,HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body( senderService.sendSimpleEmail(doctor.getUserEmail(),
+                        "PHARMACARE: New Order ",
+                        "Hey " + doctor.getUserName()+"      " +
+                                "You have ordered" + orders.toString() ));
     }
 
     @GetMapping
     public ResponseEntity getOrder() {
         try {
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .body(senderService.sendSimpleEmail(doctor.getDoctor_email(),
-//                        "PHARMACARE: New Order ",
-//                        "Hey " +doctor.getDoctor_name()+"      "+
-//                                "Thanks for your purchase from Pharmacare " +
-//                                " Order id : " + orders1.getOrderId() +
-//                                " Price : " + orders1.getTotalPrice()));
             return ResponseEntity.ok(orderService.getOrder());
         } catch (Exception e) {
             logger.error("No order in the system");

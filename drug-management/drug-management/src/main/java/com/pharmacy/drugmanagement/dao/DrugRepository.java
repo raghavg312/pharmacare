@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface DrugRepository extends CrudRepository<Drug,String>{
     public List<Drug> findAll();
+    public List<Drug> findByDrugId(String id);
 
 }

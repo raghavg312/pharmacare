@@ -34,13 +34,13 @@ class 	DrugManagementApplicationTests {
 		assertEquals(1,drugRepository.findAll().size());
 	}
 
-//	@Test
-//	public void getDrugByIdTest() {
-//			String id="id1";
-//		when(drugRepository.findDrugById(id)).thenReturn(Stream.of(new Drug("id1","name1","email1",123))
-//				.collect(Collectors.toList()));
-//		assertEquals(1,drugRepository.findById(id));
-//	}
+	@Test
+	public void getDrugByIdTest() {
+			String id="id1";
+		when(drugRepository.findByDrugId(id)).thenReturn(Stream.of(new Drug("id1","name1",123,null,5.0,"id1"))
+				.collect(Collectors.toList()));
+		assertEquals(1,drugRepository.findByDrugId(id).size());
+	}
 
 	@Test
 	public void createDrugTest() {
@@ -55,6 +55,4 @@ class 	DrugManagementApplicationTests {
 		drugRepository.delete(drug);
 		verify(drugRepository,times(1)).delete(drug);
 	}
-
-
 }

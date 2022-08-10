@@ -1,7 +1,6 @@
 package com.pharmacy.ordermanagement.services.impl;
 
 import com.pharmacy.ordermanagement.dao.OrderRepository;
-import com.pharmacy.ordermanagement.models.Drug;
 import com.pharmacy.ordermanagement.models.Orders;
 import com.pharmacy.ordermanagement.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Orders getOrderById(String s) {
-        return  orderRepository.findById(s).get();
+    public List<Orders> getOrderById(String s) {
+        List<Orders> order = orderRepository.findByOrderId(s);
+        return order;
     }
 
     @Override
@@ -75,9 +75,5 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByDoctorId(id);
     }
 
-//    @Override
-//    public List<Orders> findByDrugId(String id) {
-//        return orderRepository.(id);
-//    }
 
 }

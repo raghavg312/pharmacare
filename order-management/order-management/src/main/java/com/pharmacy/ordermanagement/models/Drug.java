@@ -2,16 +2,21 @@ package com.pharmacy.ordermanagement.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 import java.util.List;
 
 public class Drug {
     private String drugId;
+    @ApiModelProperty(hidden = true)
     private String drugName;
     private int drugQuantity;
+    @ApiModelProperty(hidden = true)
     private Date expiryDate;
+    @ApiModelProperty(hidden = true)
     private double price;
+    @ApiModelProperty(hidden = true)
     private String batchId;
 
 

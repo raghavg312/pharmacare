@@ -1,4 +1,4 @@
-package com.pharmacy.usermanagement;
+package com.pharmacy.usermanagement.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     public ApiInfo getInfo(){
         return new ApiInfo("Pharmacare - UserManagement Backend","This Project is developed to manage the Users","1.0"
-                ,"Terms Of Service",new Contact("Raghav","","pharmacymanagement132@gmail.com")
+                ,"Terms Of Service",new Contact("Raghav","http://localhost:8761/","pharmacymanagement132@gmail.com")
                 ,"License Of API","API licence URL", Collections.emptyList());
     }
 }

@@ -10,7 +10,7 @@ public interface OrderService {
 
     public List<Orders> getOrder();
 
-    Orders getOrderById(String s);
+    public List<Orders> getOrderById(String s);
 
     public Orders saveOrder(Orders order);
 
@@ -25,7 +25,6 @@ public interface OrderService {
     public List<Orders> findByPickedUp(boolean flag);
     public List<Orders> findByVerified(boolean flag);
     public List<Orders> findByDoctorId(String id);
-//    public List<Orders> findByDrugId(String id);
 
 
 

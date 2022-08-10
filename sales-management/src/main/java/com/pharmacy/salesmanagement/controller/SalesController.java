@@ -18,7 +18,7 @@ public class SalesController {
 
 
     @GetMapping("/sales/total")
-    public Double TotalSales(){
+    public Double TotalSales() {
         ResponseEntity<Orders[]> response = restTemplate.getForEntity(
                 "http://localhost:8064/order/orders",
                 Orders[].class);
@@ -30,24 +30,16 @@ public class SalesController {
     }
 
     @GetMapping("/{drugId}")
-    public Double SaleByDocId(@PathVariable("drugId") String id){
+    public Double SaleByDocId(@PathVariable("drugId") String id) {
         ResponseEntity<Orders[]> response =
                 restTemplate.getForEntity(
-                        "http://localhost:8064/order/"+id,
+                        "http://localhost:8064/order/" + id,
                         Orders[].class);
         Orders[] o = response.getBody();
         Double totalSale = 0.0;
 
-        for(Orders orders:o)
+        for (Orders orders : o)
             totalSale += orders.getTotalPrice();
         return totalSale;
-    }
-
-    public Double SaleByDrugId(){
-        return 1.0;
-    }
-
-    public Double SaleBy(){
-        return 1.0;
     }
 }

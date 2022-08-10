@@ -21,15 +21,10 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class 	SupplierManagementApplicationTests {
 
-//	@Test
-//	void contextLoads() {
-//	}
-
 		@MockBean
 		private SupplierRepository supplierRepository;
 		@Autowired
 		private SupplierService supplierService;
-
 		@Test
 		public void getSupplierTest() {
 			when(supplierRepository.findAll()).thenReturn(Stream
@@ -38,13 +33,13 @@ class 	SupplierManagementApplicationTests {
 			assertEquals(1,supplierRepository.findAll().size());
 		}
 
-//	@Test
-//	public void getSupplierByIdTest() {
-//			String id="id1";
-//		when(supplierRepository.findSupplierById(id)).thenReturn(Stream.of(new Supplier("id1","name1","email1",123))
-//				.collect(Collectors.toList()));
-//		assertEquals(1,supplierRepository.findById(id));
-//	}
+	@Test
+	public void getSupplierByIdTest() {
+			String id="id1";
+		when(supplierRepository.findSupplierById(id)).thenReturn(Stream.of(new Supplier("id1","name1","email1",123))
+				.collect(Collectors.toList()));
+		assertEquals(1,supplierRepository.findSupplierById(id).size());
+	}
 
 	@Test
 	public void createSupplierTest() {

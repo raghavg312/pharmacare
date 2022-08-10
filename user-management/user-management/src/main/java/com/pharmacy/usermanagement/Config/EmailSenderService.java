@@ -1,4 +1,4 @@
-package com.pharmacy.usermanagement;
+package com.pharmacy.usermanagement.Config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

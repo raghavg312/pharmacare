@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DrugServiceImpl implements DrugService {
@@ -46,8 +45,8 @@ public class DrugServiceImpl implements DrugService {
         return id;
     }
 
-    public Optional<Drug> findDrugById(String id){
-        Optional<Drug> a = drugRepository.findById(id);
+    public List<Drug> findDrugById(String id){
+        List<Drug> a = drugRepository.findByDrugId(id);
         return a;
     }
     @Override

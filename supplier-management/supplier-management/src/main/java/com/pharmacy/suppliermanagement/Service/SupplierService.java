@@ -13,5 +13,5 @@ public interface SupplierService {
 
     public String deleteSupplier(String id);
 
-    public Supplier findSupplierById(String id);
+    public List<Supplier> findSupplierById(String id);
 }

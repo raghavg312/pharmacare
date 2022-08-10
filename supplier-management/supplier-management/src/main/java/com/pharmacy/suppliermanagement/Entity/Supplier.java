@@ -2,6 +2,7 @@ package com.pharmacy.suppliermanagement.Entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -12,7 +13,8 @@ import javax.persistence.*;
 public class Supplier {
 
     @Id
-//  @ApiModelProperty(notes = "Unique Id of suppliers")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2",strategy = "uuid2")
     @ApiModelProperty(hidden = true)
     private String SupplierId;
 

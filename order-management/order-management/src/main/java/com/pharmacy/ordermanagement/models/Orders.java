@@ -15,7 +15,6 @@ public class Orders {
     @ApiModelProperty(hidden = true)
     //@ApiModelProperty(notes = "Unique Id of order")
     private String orderId;
-
     @ApiModelProperty(notes = "Id of the doctor")
     //@ApiModelProperty(hidden = true)
     private String doctorId;
@@ -88,5 +87,15 @@ public class Orders {
 
     public void setVerified(boolean verified) {
         this.verified = verified;
+    }
+
+    @Override
+    public String toString() {
+        return  "orderId='" + orderId + '\'' +
+                ", doctorId='" + doctorId + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", pickedUp=" + pickedUp +
+                ", verified=" + verified +
+                ", drugList=" + drugList ;
     }
 }

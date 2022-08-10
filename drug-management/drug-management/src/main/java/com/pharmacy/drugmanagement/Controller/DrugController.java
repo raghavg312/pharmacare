@@ -38,7 +38,7 @@ public class DrugController {
 
     @GetMapping("/drug/{drugId}")
     public ResponseEntity getDrugById(@PathVariable("drugId") String id){
-        Optional<Drug> a = drugService.findDrugById(id);
+        List<Drug> a = drugService.findDrugById(id);
         if(!(a.isEmpty())){
             logger.trace("Getting drug with id "+id+" from the system");
             return ResponseEntity.ok(a);}
