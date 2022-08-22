@@ -34,14 +34,6 @@ class 	UsersManagementApplicationTests {
 	}
 
 	@Test
-	public void getUsersByIdTest() {
-		String id = "id1";
-		when(userRepository.findByUserId(id)).thenReturn(Stream.of(new Users("id1", "name1", "email1", "pass1", "as", "admin"))
-				.collect(Collectors.toList()));
-		assertEquals(1, userRepository.findByUserId(id).size());
-	}
-
-	@Test
 	public void createUsersTest() {
 		Users user = new Users("id1", "name1", "email1", "pass1", "as", "admin");
 		when(userRepository.save(user)).thenReturn(user);

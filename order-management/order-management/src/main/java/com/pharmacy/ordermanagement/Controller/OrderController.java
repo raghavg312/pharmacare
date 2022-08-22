@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
+@CrossOrigin("*")
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -38,7 +39,6 @@ public class OrderController {
         Users doctor = restTemplate.getForObject("http://user-management/user/"+orders.getDoctorId(),Users.class);
 
         double totalPrice = 0;
-
         for(Drug d : drugListRequested){
             // getting the drug info from drug management microservice
             Drug drug = restTemplate.getForObject("http://drug-management/drug/"+d.getDrugId(),Drug.class);
@@ -80,7 +80,6 @@ public class OrderController {
 
         // saving the order in database
         orders = orderService.saveOrder(orders);
-       // return new ResponseEntity<>(orders,HttpStatus.CREATED);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body( senderService.sendSimpleEmail(doctor.getUserEmail(),
                         "PHARMACARE: New Order ",
@@ -88,105 +87,105 @@ public class OrderController {
                                 "You have ordered" + orders.toString() ));
     }
 
-    @GetMapping
-    public ResponseEntity getOrder() {
-        try {
-            return ResponseEntity.ok(orderService.getOrder());
-        } catch (Exception e) {
-            logger.error("No order in the system");
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
-        }
-    }
-
-    @GetMapping("/pickUp/{orderId}")
-    public ResponseEntity orderPickUp(@PathVariable("orderId") String orderId) {
-        try {
-            boolean flag = orderService.pickUpOrder(orderId);
-            if(flag) {
-                return ResponseEntity.status(HttpStatus.OK).body("order added to picked-up section");
-            }else{
+        @GetMapping
+        public ResponseEntity getOrder () {
+            try {
+                return ResponseEntity.ok(orderService.getOrder());
+            } catch (Exception e) {
+                logger.error("No order in the system");
+                e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No order found");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("INTERNAL_SERVER_ERROR");
         }
-    }
 
-    @GetMapping("/verify/{orderId}")
-    public ResponseEntity verifyOrder(@PathVariable("orderId") String orderId) {
-        try {
-            boolean flag = orderService.verifyOrder(orderId);
-            if(flag) {
-                return ResponseEntity.status(HttpStatus.OK).body("order verified");
-            }else{
+        @GetMapping("/pickUp/{orderId}")
+        public ResponseEntity orderPickUp (@PathVariable("orderId") String orderId){
+            try {
+                boolean flag = orderService.pickUpOrder(orderId);
+                if (flag) {
+                    return ResponseEntity.status(HttpStatus.OK).body("order added to picked-up section");
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body("No order found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("INTERNAL_SERVER_ERROR");
+            }
+        }
+
+        @GetMapping("/verify/{orderId}")
+        public ResponseEntity verifyOrder (@PathVariable("orderId") String orderId){
+            try {
+                boolean flag = orderService.verifyOrder(orderId);
+                if (flag) {
+                    return ResponseEntity.status(HttpStatus.OK).body("order verified");
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body("No order found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("INTERNAL_SERVER_ERROR");
+            }
+        }
+
+        @GetMapping("/{id}")
+        public ResponseEntity getOrderById (@PathVariable("id") String id){
+            try {
+                return ResponseEntity.ok(orderService.getOrderById(id));
+            } catch (Exception e) {
+                e.printStackTrace();
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No order found");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("INTERNAL_SERVER_ERROR");
         }
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getOrderById(@PathVariable("id") String id) {
-        try {
-            return ResponseEntity.ok(orderService.getOrderById(id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
+        @DeleteMapping("/{orderId}")
+        public ResponseEntity deleteOrder (@PathVariable("orderId") String id){
+            try {
+                return ResponseEntity.ok(orderService.deleteOrder(id));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No order found");
+            }
         }
-    }
 
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity deleteOrder(@PathVariable("orderId") String id) {
-        try {
-            return ResponseEntity.ok(orderService.deleteOrder(id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
+        @GetMapping("/byPickedUp/{flag}")
+        public ResponseEntity findByPickedUp ( @PathVariable("flag") boolean flag){
+            try {
+                return ResponseEntity.ok(orderService.findByPickedUp(flag));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No order found");
+            }
         }
-    }
 
-    @GetMapping("/byPickedUp/{flag}")
-    public ResponseEntity findByPickedUp(@PathVariable("flag") boolean flag){
-        try {
-            return ResponseEntity.ok(orderService.findByPickedUp(flag));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
+        @GetMapping("/byVerified/{flag}")
+        public ResponseEntity findByVerified ( @PathVariable("flag") boolean flag){
+            try {
+                return ResponseEntity.ok(orderService.findByVerified(flag));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No order found");
+            }
         }
-    }
 
-    @GetMapping("/byVerified/{flag}")
-    public ResponseEntity findByVerified(@PathVariable("flag") boolean flag){
-        try {
-            return ResponseEntity.ok(orderService.findByVerified(flag));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
+        @GetMapping("/byDoctorId/{id}")
+        public ResponseEntity findByDoctorId (@PathVariable("id") String id){
+            try {
+                return ResponseEntity.ok(orderService.findByDoctorId(id));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No order found");
+            }
         }
-    }
 
-    @GetMapping("/byDoctorId/{id}")
-    public ResponseEntity findByDoctorId(@PathVariable("id") String id){
-        try {
-            return ResponseEntity.ok(orderService.findByDoctorId(id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No order found");
-        }
     }
-
-}

@@ -43,8 +43,8 @@ public class SupplierServiceImpl implements SupplierService {
         return id;
     }
 
-    public List<Supplier> findSupplierById(String id){
-        List<Supplier> s = supplierRepository.findSupplierById(id);
-        return s;
-    }
+//    public List<Supplier> findSupplierById(String id){
+//        List<Supplier> s = supplierRepository.findSupplierById(id);
+//        return s;
+//    }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 public interface SupplierRepository  extends CrudRepository<Supplier,String> {
 
     public List<Supplier> findAll();
-    public List<Supplier> findSupplierById(String id);
+//    public List<Supplier> findSupplierById(String id);
 }

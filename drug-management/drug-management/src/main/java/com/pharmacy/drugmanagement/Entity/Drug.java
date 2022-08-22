@@ -26,7 +26,7 @@ public class Drug {
     private int drugQuantity;
 
     @ApiModelProperty(notes = "Expiry date of drug")
-    private Date expiryDate;
+    private String expiryDate;
 
     @ApiModelProperty(notes = "Price of drug")
     private double price;
@@ -37,7 +37,7 @@ public class Drug {
     public Drug() {
     }
 
-    public Drug(String drugId, String drugName, int drugQuantity, Date expiryDate, double price, String batchId) {
+    public Drug(String drugId, String drugName, int drugQuantity, String expiryDate, double price, String batchId) {
         this.drugId = drugId;
         this.drugName = drugName;
         this.drugQuantity = drugQuantity;
@@ -70,11 +70,11 @@ public class Drug {
         this.drugQuantity = drugQuantity;
     }
 
-    public Date getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 

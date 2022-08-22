@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class SupplierController {
 
     @Autowired
@@ -31,21 +32,22 @@ public class SupplierController {
         }
     }
 
-    @GetMapping("/supplier/{supplierId}")
-    public ResponseEntity getSupplierById(@PathVariable("supplierId") String id){
-        try {
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .body(supplierService.findSupplierById(id));
-        }catch(Exception e){
-            logger.error("No drug with id "+id+" in the system");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("There is no supplier in the system with id "+id);
-    }
-        }
+//    @GetMapping("/supplier/{supplierId}")
+//    public ResponseEntity getSupplierById(@PathVariable("supplierId") String id){
+//        try {
+//            return ResponseEntity.status(HttpStatus.FOUND)
+//                    .body(supplierService.findSupplierById(id));
+//        }catch(Exception e){
+//            logger.error("No drug with id "+id+" in the system");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body("There is no supplier in the system with id "+id);
+//    }
+//        }
 
     @PostMapping("/supplier")
     public ResponseEntity createSupplier(@RequestBody Supplier supplier) {
         try {
+            System.err.println(supplier);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(supplierService.saveSupplier(supplier));
         }catch (Exception e) {

@@ -33,13 +33,13 @@ class 	SupplierManagementApplicationTests {
 			assertEquals(1,supplierRepository.findAll().size());
 		}
 
-	@Test
-	public void getSupplierByIdTest() {
-			String id="id1";
-		when(supplierRepository.findSupplierById(id)).thenReturn(Stream.of(new Supplier("id1","name1","email1",123))
-				.collect(Collectors.toList()));
-		assertEquals(1,supplierRepository.findSupplierById(id).size());
-	}
+//	@Test
+//	public void getSupplierByIdTest() {
+//			String id="id1";
+//		when(supplierRepository.findSupplierById(id)).thenReturn(Stream.of(new Supplier("id1","name1","email1",123))
+//				.collect(Collectors.toList()));
+//		assertEquals(1,supplierRepository.findSupplierById(id).size());
+//	}
 
 	@Test
 	public void createSupplierTest() {

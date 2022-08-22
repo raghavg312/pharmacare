@@ -20,7 +20,7 @@ public class SalesController {
     @GetMapping("/sales/total")
     public Double TotalSales() {
         ResponseEntity<Orders[]> response = restTemplate.getForEntity(
-                "http://localhost:8064/order/orders",
+                "http://localhost:8064/order/",
                 Orders[].class);
         Orders[] o = response.getBody();
         Double totalSale = 0.0;
@@ -29,11 +29,11 @@ public class SalesController {
         return totalSale;
     }
 
-    @GetMapping("/{drugId}")
-    public Double SaleByDocId(@PathVariable("drugId") String id) {
+    @GetMapping("/sales/{docId}")
+    public Double SaleByDocId(@PathVariable("docId") String id) {
         ResponseEntity<Orders[]> response =
                 restTemplate.getForEntity(
-                        "http://localhost:8064/order/" + id,
+                        "http://localhost:8064/order/byDoctorId/" + id,
                         Orders[].class);
         Orders[] o = response.getBody();
         Double totalSale = 0.0;

@@ -2,9 +2,6 @@ package com.pharmacy.drugmanagement.Controller;
 
 import com.pharmacy.drugmanagement.Entity.Drug;
 import com.pharmacy.drugmanagement.Service.DrugService;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 public class DrugController {
 
     @Autowired
@@ -26,6 +23,7 @@ public class DrugController {
     @GetMapping("/drug")
     public ResponseEntity getDrug(){
         List<Drug> a = drugService.getDrug();
+        System.err.println(a.get(0).getExpiryDate());
         if(!(a.isEmpty())){
             logger.info("Getting all drugs from the system");
             return ResponseEntity.ok(a);}
@@ -38,8 +36,8 @@ public class DrugController {
 
     @GetMapping("/drug/{drugId}")
     public ResponseEntity getDrugById(@PathVariable("drugId") String id){
-        List<Drug> a = drugService.findDrugById(id);
-        if(!(a.isEmpty())){
+        Drug a = drugService.findDrugById(id).get(0);
+        if(a!=null){
             logger.trace("Getting drug with id "+id+" from the system");
             return ResponseEntity.ok(a);}
         else {
